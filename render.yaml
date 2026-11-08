@@ -1,0 +1,17 @@
+# render.yaml — lets Render set up the app automatically ("Blueprint").
+# You still type the secret values (PIN, sheet links) in the Render dashboard.
+services:
+  - type: web
+    name: katti-garo
+    runtime: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /play
+    envVars:
+      - key: HOST_PIN
+        sync: false        # Render will ask you for this value
+      - key: QUESTIONS_CSV_URL
+        sync: false
+      - key: GROUPS_CSV_URL
+        sync: false

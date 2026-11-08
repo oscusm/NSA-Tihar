@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en" class="screen-root">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Big Screen</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Mukta:wght@800&family=Poppins:wght@400;600;700;800;900&display=swap">
+  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="/screen.css">
+</head>
+<body class="screen">
+  <!-- Browsers only allow sound after a click. This overlay gets that click. -->
+  <div id="start-overlay" class="overlay">
+    <div class="overlay-card">
+      <span class="brand-logo big" data-logo>NSA</span>
+      <h1 data-title>Katti Garo</h1>
+      <p data-subtitle></p>
+      <div class="overlay-cta">Click to start</div>
+      <p class="overlay-keys"><kbd>F</kbd> full screen · <kbd>M</kbd> music on/off</p>
+    </div>
+  </div>
+
+  <div id="offline" class="connection hidden">Reconnecting to server…</div>
+
+  <div class="stage">
+    <!-- ===== Header ===== -->
+    <header class="top">
+      <div class="flags"></div>
+      <div class="topbar">
+        <div class="brand">
+          <span class="brand-logo" data-logo>NSA</span>
+          <div style="min-width:0">
+            <div class="brand-title" data-title>Katti Garo</div>
+            <div class="brand-sub" data-subtitle></div>
+          </div>
+        </div>
+        <div id="round-chip" class="round-chip hidden"></div>
+      </div>
+      <div class="garland"></div>
+    </header>
+
+    <main class="main">
+      <!-- ===== LOBBY ===== -->
+      <section id="lobby" class="view hidden">
+        <div class="qr-block">
+          <div class="qr-title display">Scan to join</div>
+          <img class="qr" src="/qr.svg" alt="QR code to join">
+          <div class="qr-or">or open</div>
+          <div class="qr-url join-url-text">…</div>
+        </div>
+        <div class="lobby-right">
+          <h1 class="lobby-title display" data-title>Katti Garo</h1>
+          <div class="lobby-sub" data-subtitle></div>
+          <div id="player-count" class="player-count">Waiting for players…</div>
+          <div id="lobby-groups" class="lobby-groups"></div>
+        </div>
+      </section>
+
+      <!-- ===== BETWEEN QUESTIONS: "Question 4 of 30" ===== -->
+      <section id="board" class="view hidden">
+        <h1 id="board-title" class="board-title display">Get ready</h1>
+        <div id="board-grid" class="board-grid"></div>
+      </section>
+
+      <!-- ===== QUESTION (intro / open / closed / reveal) ===== -->
+      <section id="question" class="view hidden">
+        <div class="q-top">
+          <div id="q-cat" class="q-cat"></div>
+          <div id="q-points" class="q-points"></div>
+        </div>
+        <div class="q-body">
+          <h1 id="q-text" class="q-text"></h1>
+          <img id="q-image" class="q-image hidden" alt="">
+          <div id="q-status" class="q-status"></div>
+          <div id="q-answer" class="q-answer hidden">
+            <small>Answer</small>
+            <div id="q-answer-text"></div>
+          </div>
+          <div id="q-award" class="q-award hidden"></div>
+        </div>
+        <!-- countdown ring -->
+        <div id="ring" class="ring hidden">
+          <svg viewBox="0 0 120 120">
+            <circle class="ring-bg" cx="60" cy="60" r="52"></circle>
+            <circle id="ring-fg" class="ring-fg" cx="60" cy="60" r="52"></circle>
+          </svg>
+          <div class="ring-num" id="ring-num"></div>
+          <div class="ring-label" id="ring-label"></div>
+        </div>
+      </section>
+
+      <!-- ===== END ===== -->
+      <section id="end" class="view hidden">
+        <div class="end-title display">Champions</div>
+        <div id="podium" class="podium"></div>
+        <div id="rest" class="rest"></div>
+      </section>
+    </main>
+
+    <!-- ===== Scoreboard ===== -->
+    <footer id="scorebar" class="scorebar hidden"></footer>
+  </div>
+
+  <!-- ===== Someone buzzed: the screen turns the team's colour ===== -->
+  <div id="buzzed" class="buzzed hidden">
+    <div class="buzz-emoji" id="buzz-emoji"></div>
+    <div class="buzz-group display" id="buzz-group"></div>
+    <div class="buzz-name" id="buzz-name"></div>
+  </div>
+
+  <!-- ===== "Question 4" splash when a question starts ===== -->
+  <div id="splash" class="splash hidden">
+    <div class="splash-cat display" id="splash-cat"></div>
+    <div class="splash-pts" id="splash-pts"></div>
+  </div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/theme.js"></script>
+  <script src="/sounds.js"></script>
+  <script src="/celebrate.js"></script>
+  <script src="/screen.js"></script>
+</body>
+</html>

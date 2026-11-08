@@ -1,0 +1,244 @@
+/* style.css — shared theme for all pages + the player page.
+   Theme: Southern Miss black & gold, with Nepali / Tihar touches
+   (prayer flags, marigold garland). Rich colour and depth, but no
+   gimmicky motion (no sparkles, spinning rays or wobbling). */
+
+:root {
+  /* Southern Miss */
+  --gold: #FFAB00;
+  --gold-light: #FFC94D;
+  --gold-deep: #C78400;
+  --black: #0A0A0A;
+  /* Nepal / Tihar */
+  --crimson: #DC143C;
+  --marigold: #FF8F1C;
+
+  --bg: #0D0C0A;
+  --surface: #17150F;
+  --surface-2: #221F16;
+  --line: rgba(255, 171, 0, 0.22);
+  --text: #FFF8E7;
+  --muted: #B8AC8F;
+  --good: #22B573;
+  --bad: #E63946;
+  --radius: 16px;
+
+  --font-display: "Bebas Neue", "Oswald", Impact, "Arial Narrow", sans-serif;
+  --font-body: "Poppins", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  min-height: 100%;
+  color: var(--text);
+  font-family: var(--font-body);
+  -webkit-tap-highlight-color: transparent; /* no grey flash on tap (phones) */
+}
+body {
+  background:
+    radial-gradient(ellipse 90% 60% at 50% -10%, rgba(255, 171, 0, 0.16), transparent 70%),
+    radial-gradient(ellipse 60% 50% at 100% 110%, rgba(220, 20, 60, 0.12), transparent 70%),
+    radial-gradient(circle at 1px 1px, rgba(255, 171, 0, 0.06) 1px, transparent 0) 0 0 / 22px 22px,
+    var(--bg);
+  background-attachment: fixed;
+}
+
+.hidden { display: none !important; }
+.muted { color: var(--muted); }
+.display { font-family: var(--font-display); letter-spacing: 0.03em; font-weight: 400; }
+
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  border-radius: var(--radius);
+  cursor: pointer;
+  touch-action: manipulation; /* removes the 300ms tap delay + double-tap zoom */
+}
+
+input {
+  font: inherit;
+  font-size: 1.15rem;      /* >= 16px stops iPhones from zooming in */
+  width: 100%;
+  padding: 15px 18px;
+  border-radius: var(--radius);
+  border: 2px solid var(--line);
+  background: var(--surface);
+  color: var(--text);
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+input:focus { border-color: var(--gold); box-shadow: 0 0 0 4px rgba(255, 171, 0, 0.18); }
+input::placeholder { color: #7d745f; }
+
+.error { color: #ff8a8a; font-weight: 600; min-height: 1.4em; margin: 0; }
+
+/* ---------- Prayer flags (still, no animation; filled in by theme.js) ---------- */
+.flags {
+  display: flex; justify-content: space-between; gap: 4px;
+  height: 14px; padding: 0 4px;
+  position: relative; overflow: hidden;
+}
+.flags::before { /* the string */
+  content: ""; position: absolute; left: 0; right: 0; top: 1px;
+  height: 2px; background: rgba(255, 248, 231, 0.3);
+}
+.flags span { flex: 1; max-width: 34px; min-width: 10px; margin-top: 2px; border-radius: 0 0 3px 3px; opacity: 0.9; }
+
+/* ---------- Marigold garland ---------- */
+.garland {
+  height: 12px;
+  background: radial-gradient(circle at 6px 6px, var(--gold-light) 0 2.5px, var(--marigold) 3.5px 5px, transparent 6px) 0 0 / 12px 12px repeat-x;
+  opacity: 0.85;
+}
+
+/* ---------- Brand (logo + title) ---------- */
+.brand { display: flex; align-items: center; gap: 12px; min-width: 0; }
+.brand-logo {
+  flex: none;
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  display: grid; place-items: center;
+  background: radial-gradient(circle at 35% 30%, var(--gold-light), var(--gold) 55%, var(--gold-deep));
+  color: var(--black);
+  font-family: var(--font-display);
+  font-size: 1.2rem; letter-spacing: 0.04em;
+  box-shadow: 0 0 0 3px rgba(255, 171, 0, 0.2);
+  overflow: hidden;
+}
+.brand-logo img { width: 100%; height: 100%; object-fit: contain; background: #fff; }
+.brand-title {
+  font-family: var(--font-display);
+  font-size: 1.6rem; line-height: 1; letter-spacing: 0.04em;
+  color: var(--gold);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.brand-sub { font-size: 0.75rem; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+/* ---------- Buttons ---------- */
+.btn-gold {
+  display: block; width: 100%;
+  padding: 18px;
+  font-size: 1.2rem; font-weight: 800;
+  background: linear-gradient(180deg, var(--gold-light), var(--gold) 50%, var(--gold-deep));
+  color: var(--black);
+  box-shadow: 0 5px 0 #7a5200;
+  transition: transform 0.08s, box-shadow 0.08s;
+}
+.btn-gold:active { transform: translateY(4px); box-shadow: 0 1px 0 #7a5200; }
+.btn-gold:disabled { filter: grayscale(0.7); opacity: 0.6; }
+
+.connection {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  padding: 8px; background: var(--bad); color: #fff;
+  text-align: center; font-weight: 700;
+}
+
+/* Team colours used as text are lightened so dark colours stay readable */
+.team-text { color: color-mix(in srgb, var(--c) 65%, white); }
+
+@keyframes pop { from { transform: scale(0.7); opacity: 0; } }
+@keyframes fadeUp { from { transform: translateY(14px); opacity: 0; } }
+
+/* =====================================================
+   PLAYER PAGE (/play)
+   ===================================================== */
+.play-page { min-height: 100vh; min-height: 100dvh; display: flex; flex-direction: column; }
+.play-header { display: flex; align-items: center; padding: 10px 16px 8px; }
+.play-header .brand-logo { width: 36px; height: 36px; font-size: 0.95rem; }
+.play-header .brand-title { font-size: 1.3rem; }
+
+.play {
+  width: 100%; max-width: 520px;
+  margin: 0 auto;
+  padding: 12px 16px 22px;
+  flex: 1;
+  display: flex; flex-direction: column; gap: 14px;
+}
+
+/* Join */
+.join-hero { text-align: center; margin: 6px 0 2px; }
+.join-hero h1 { font-family: var(--font-display); font-weight: 400; font-size: 2.9rem; line-height: 0.95; margin: 0; letter-spacing: 0.03em; }
+.join-hero h1 span { color: var(--gold); }
+.join-hero p { margin: 6px 0 0; color: var(--muted); }
+.label { font-weight: 700; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--gold); margin: 6px 0 -4px; }
+
+/* Team picker: 2 x 2 tiles in the team colour */
+.group-picker { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.group-option {
+  padding: 16px 10px 14px;
+  text-align: center; color: #fff;
+  background: linear-gradient(160deg, color-mix(in srgb, var(--c) 85%, white), var(--c) 45%, color-mix(in srgb, var(--c) 70%, black));
+  box-shadow: inset 0 -4px 0 rgba(0, 0, 0, 0.25);
+  border: 3px solid transparent;
+  opacity: 0.8;
+  transition: transform 0.12s, opacity 0.12s, border-color 0.12s;
+}
+.group-option .emoji { display: block; font-size: 2.5rem; line-height: 1.1; }
+.group-option .label-name { display: block; font-weight: 800; font-size: 1.15rem; margin-top: 4px; text-shadow: 0 1px 0 rgba(0, 0, 0, 0.3); }
+.group-option .count { display: block; font-size: 0.8rem; opacity: 0.9; }
+.group-option.selected { opacity: 1; border-color: var(--gold); transform: translateY(-2px); box-shadow: inset 0 -4px 0 rgba(0, 0, 0, 0.25), 0 0 0 3px rgba(255, 171, 0, 0.3); }
+.warn-note { text-align: center; font-size: 0.85rem; color: var(--muted); margin: -2px 0 0; }
+
+/* Game */
+.me-bar {
+  display: flex; align-items: center; justify-content: space-between; gap: 10px;
+  padding: 10px 16px; border-radius: 999px;
+  font-weight: 800; font-size: 1.05rem; color: #fff;
+  background: linear-gradient(90deg, var(--c), color-mix(in srgb, var(--c) 70%, black));
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.3);
+}
+.me-bar #me-name { flex: 1; text-align: center; opacity: 0.9; }
+.me-bar .me-score { font-family: var(--font-display); font-weight: 400; font-size: 1.5rem; letter-spacing: 0.04em; }
+
+.q-chip {
+  align-self: center;
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 5px 14px; border-radius: 999px;
+  background: var(--surface-2); border: 1px solid var(--line);
+  font-weight: 700; font-size: 0.9rem;
+}
+.q-chip .dot { width: 10px; height: 10px; border-radius: 50%; }
+
+.status {
+  text-align: center;
+  font-family: var(--font-display);
+  font-size: 2.3rem; line-height: 1.05; letter-spacing: 0.03em;
+  min-height: 2.2em;
+  display: flex; align-items: center; justify-content: center;
+}
+.status.small { font-family: var(--font-body); font-weight: 800; font-size: 1.25rem; }
+
+.phone-countdown {
+  text-align: center; font-weight: 800; font-size: 1.1rem;
+  min-height: 1.4em; color: var(--gold); font-variant-numeric: tabular-nums;
+}
+
+.buzz-wrap { flex: 1; display: flex; align-items: center; justify-content: center; min-height: 260px; }
+.buzz-btn {
+  --c: var(--gold);
+  width: min(78vw, 350px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  font-family: var(--font-display);
+  font-size: 4.2rem; letter-spacing: 0.08em;
+  color: #fff; text-shadow: 0 3px 0 rgba(0, 0, 0, 0.35);
+  background: radial-gradient(circle at 35% 28%, rgba(255, 255, 255, 0.4), transparent 45%), var(--c);
+  border: 9px solid var(--gold);
+  box-shadow: 0 0 0 6px var(--black), 0 0 0 8px rgba(255, 171, 0, 0.45), 0 12px 0 6px #000;
+  user-select: none; -webkit-user-select: none; -webkit-touch-callout: none;
+  transition: transform 0.06s, box-shadow 0.06s, filter 0.2s;
+}
+.buzz-btn.ready { box-shadow: 0 0 0 6px var(--black), 0 0 0 8px var(--gold), 0 12px 0 6px #000, 0 0 50px rgba(255, 171, 0, 0.45); }
+.buzz-btn:active:not(:disabled) { transform: translateY(9px); box-shadow: 0 0 0 6px var(--black), 0 0 0 8px var(--gold), 0 3px 0 6px #000; }
+.buzz-btn:disabled { filter: grayscale(0.9) brightness(0.45); cursor: not-allowed; }
+.buzz-btn.won { filter: none; border-color: #fff; box-shadow: 0 0 0 6px var(--black), 0 0 0 8px #fff, 0 12px 0 6px #000, 0 0 70px rgba(255, 255, 255, 0.45); }
+
+.tip {
+  text-align: center; font-size: 0.85rem; color: var(--muted);
+  padding: 8px 12px; border-radius: 12px; border: 1px dashed var(--line);
+  margin: 0;
+}

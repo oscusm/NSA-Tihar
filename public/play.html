@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <!-- user-scalable=no stops accidental zoom when players tap fast -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+  <meta name="theme-color" content="#0D0C0A">
+  <title>Play</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:wght@400;600;700;800;900&display=swap">
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <div id="offline" class="connection hidden">Reconnecting…</div>
+
+  <div class="play-page">
+    <div class="flags"></div>
+    <header class="play-header">
+      <div class="brand">
+        <span class="brand-logo" data-logo>NSA</span>
+        <div style="min-width:0">
+          <div class="brand-title" data-title>Katti Garo</div>
+          <div class="brand-sub" data-subtitle></div>
+        </div>
+      </div>
+    </header>
+    <div class="garland"></div>
+
+    <main class="play">
+      <!-- ===== Step 1: join ===== -->
+      <section id="join-view" class="hidden" style="display:flex;flex-direction:column;gap:14px">
+        <div class="join-hero">
+          <h1>Join <span data-title>Katti Garo</span></h1>
+          <p>Type your name and pick your team</p>
+        </div>
+        <input id="name-input" maxlength="20" placeholder="Your name" autocomplete="off" autocapitalize="words" enterkeyhint="done">
+        <div class="label">Your team</div>
+        <div id="group-picker" class="group-picker"></div>
+        <p class="warn-note">You can't switch teams after joining.</p>
+        <p id="join-error" class="error"></p>
+        <button id="join-btn" class="btn-gold">Join game</button>
+      </section>
+
+      <!-- ===== Step 2: play ===== -->
+      <section id="game-view" class="hidden" style="display:flex;flex-direction:column;gap:12px;flex:1">
+        <div id="me-bar" class="me-bar">
+          <span id="me-group"></span>
+          <span id="me-name"></span>
+          <span id="me-score" class="me-score"></span>
+        </div>
+        <div id="q-chip" class="q-chip hidden"><span class="dot"></span><span class="txt"></span></div>
+        <div id="status" class="status">Waiting…</div>
+        <div id="countdown" class="phone-countdown"></div>
+        <div class="buzz-wrap">
+          <button id="buzz-btn" class="buzz-btn" disabled>BUZZ</button>
+        </div>
+        <p class="tip">Turn off silent mode to hear your team's sound</p>
+      </section>
+    </main>
+  </div>
+
+  <!-- Socket.IO serves its own client script at this path -->
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/theme.js"></script>
+  <script src="/sounds.js"></script>
+  <script src="/play.js"></script>
+</body>
+</html>

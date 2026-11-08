@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0D0C0A">
+  <title>Host</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:wght@400;600;700;800;900&display=swap">
+  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="/remote.css">
+</head>
+<body>
+  <div id="offline" class="connection hidden">Reconnecting…</div>
+  <div class="flags"></div>
+
+  <!-- Shown when the PIN is missing or wrong -->
+  <main id="pin-view" class="remote hidden">
+    <div class="pin-card">
+      <span class="brand-logo big" data-logo>NSA</span>
+      <h1 class="display">Host Remote</h1>
+      <p class="muted">Enter the host PIN</p>
+      <input id="pin-input" type="password" inputmode="numeric" placeholder="PIN" autocomplete="off">
+      <p id="pin-error" class="error"></p>
+      <button id="pin-btn" class="btn-gold">Unlock</button>
+    </div>
+  </main>
+
+  <main id="host-view" class="remote hidden">
+    <!-- Sticky top bar -->
+    <div class="topbar">
+      <div class="brand">
+        <span class="brand-logo" data-logo>NSA</span>
+        <div style="min-width:0">
+          <div class="brand-title">Host</div>
+          <div class="brand-sub" id="progress"></div>
+        </div>
+      </div>
+      <span id="timer-label" class="timer-label"></span>
+      <span id="phase-pill" class="phase-pill">Lobby</span>
+    </div>
+
+    <!-- What's happening now (private: only the host sees the answer) -->
+    <section class="card now" id="now-card">
+      <div class="now-meta">
+        <span id="now-cat" class="cat-pill hidden"></span>
+        <span id="now-points" class="pts-pill hidden"></span>
+      </div>
+      <div id="now-text" class="now-text">Game not started</div>
+      <div id="now-answer" class="now-answer hidden">
+        <small>Answer — only you can see this</small>
+        <div id="now-answer-text"></div>
+      </div>
+      <div id="buzz-info" class="buzz-info hidden"></div>
+    </section>
+
+    <!-- Main controls: change depending on the phase (drawn by remote.js) -->
+    <section id="actions" class="actions"></section>
+
+    <!-- All questions list (between questions) -->
+    <section id="picker" class="card hidden">
+      <div class="card-head">
+        <h2>All questions</h2>
+        <span class="muted small">play any one out of order</span>
+      </div>
+      <div id="cat-buttons" class="cat-buttons"></div>
+      <details class="specific">
+        <summary>See all questions &amp; answers…</summary>
+        <div id="question-list"></div>
+      </details>
+    </section>
+
+    <!-- Background music level on the big screen -->
+    <section class="card music-card">
+      <div class="card-head">
+        <h2>Background music</h2>
+        <span id="music-value" class="music-value">20%</span>
+      </div>
+      <input id="music-slider" class="music-slider" type="range" min="0" max="100" step="1" value="20" aria-label="Background music volume">
+    </section>
+
+    <!-- Scores -->
+    <section class="card">
+      <div class="card-head">
+        <h2>Scores</h2>
+        <label class="amount">Amount <input id="amount" type="number" value="5" min="1" inputmode="numeric"></label>
+      </div>
+      <div id="score-list"></div>
+    </section>
+
+    <!-- Questions & groups: Google Sheet or CSV upload -->
+    <details class="card" id="setup">
+      <summary><h2>Questions &amp; teams</h2></summary>
+      <p class="small">Questions: <b id="src-questions"></b><br>Teams: <b id="src-groups"></b></p>
+
+      <h3>Option A — Google Sheet</h3>
+      <p class="small muted">Paste the "Publish to web → CSV" links (or normal links if the sheet is shared "Anyone with the link").</p>
+      <input id="url-questions" placeholder="Questions tab link">
+      <input id="url-groups" placeholder="Groups tab link">
+      <button id="reload-btn" class="ctl">Load from Google Sheet</button>
+
+      <h3>Option B — Upload an Excel or CSV file</h3>
+      <p class="small muted">Questions: <b>column A = question, column B = answer</b> (first sheet).
+        Templates: <a class="link" href="/templates/questions.csv" download>questions.csv</a> ·
+        <a class="link" href="/templates/groups.csv" download>groups.csv</a></p>
+      <label class="upload ctl">Upload questions (Excel or CSV)
+        <input type="file" id="file-questions" accept=".csv,.xlsx,.xls,text/csv,text/plain" hidden>
+      </label>
+      <label class="upload ctl">Upload teams CSV
+        <input type="file" id="file-groups" accept=".csv,.xlsx,.xls,text/csv,text/plain" hidden>
+      </label>
+
+      <pre id="load-report" class="report hidden"></pre>
+    </details>
+
+    <!-- Rarely used -->
+    <details class="card">
+      <summary><h2>Game</h2></summary>
+      <div id="players-online" class="small muted" style="margin:8px 0 12px"></div>
+      <a class="ctl" href="/screen" target="_blank">Open big screen</a>
+      <button id="end-btn" class="ctl">End game now (show winner)</button>
+      <button id="reset-btn" class="ctl bad">Reset game (scores to 0, all questions unplayed)</button>
+      <button id="kick-btn" class="ctl bad">Remove all players</button>
+      <p class="small muted" id="settings-note"></p>
+    </details>
+
+    <div id="toast" class="toast hidden"></div>
+  </main>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/theme.js"></script>
+  <script src="/remote.js"></script>
+</body>
+</html>
